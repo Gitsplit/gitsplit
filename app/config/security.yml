@@ -35,12 +35,14 @@ security:
             anonymous: true
 
     access_control:
+        push_area:
+            path: ^/login.*
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
 
-        # admin
         login_area:
             path: ^/login.*
             roles: IS_AUTHENTICATED_ANONYMOUSLY
 
-        admin_area:
+        user_area:
             path: ^/.*
             roles: ROLE_USER
