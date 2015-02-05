@@ -1,0 +1,7 @@
+services:
+
+    #
+    # Factories
+    #
+    gitsplit.factory.user:
+        class: Gitsplit\UserBundle\Factory\UserFactory

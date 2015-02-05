@@ -1,0 +1,52 @@
+Gitsplit\EngineBundle\Entity\Suite:
+    type: entity
+    repositoryClass: Gitsplit\EngineBundle\Repository\SuiteRepository
+    table: suite
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            column: status
+            type: integer
+            nullable: false
+        result:
+            column: result
+            type: integer
+            nullable: true
+        createdAt:
+            column: created_at
+            type: datetime
+        updatedAt:
+            column: updated_at
+            type: datetime
+
+    manyToOne:
+        user:
+            targetEntity: Gitsplit\UserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                nullable: false
+                onDelete: "CASCADE"
+                onUpdate: "CASCADE"
+        repository:
+            targetEntity: Gitsplit\RepositoryBundle\Entity\Repository
+            inversedBy: suites
+            joinColumn:
+                name: repository_id
+                referencedColumnName: id
+                nullable: false
+                onDelete: "CASCADE"
+                onUpdate: "CASCADE"
+
+    oneToMany:
+        works:
+            targetEntity: Gitsplit\EngineBundle\Entity\Work
+            mappedBy: suite
+
+    lifecycleCallbacks:
+        preUpdate: [loadUpdateAt]
+        prePersist: [loadUpdateAt]

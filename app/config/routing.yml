@@ -1,0 +1,15 @@
+gitsplit_web:
+    resource: @GitsplitWebBundle/Controller/
+    type:     annotation
+
+gitsplit_engine:
+    resource: @GitsplitEngineBundle/Controller/
+    type:     annotation
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /login
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login

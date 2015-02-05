@@ -1,0 +1,13 @@
+services:
+
+    #
+    # Services
+    #
+    gitsplit.oauth_provider:
+        class: Gitsplit\ConnectBundle\Services\OAuthUserProvider
+        arguments:
+            - @security.user.provider.concrete.customer
+            - @gitsplit.repository.authorization
+            - @gitsplit.object_manager.authorization
+            - @gitsplit.factory.user
+            - @gitsplit.object_manager.user

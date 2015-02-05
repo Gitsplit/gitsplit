@@ -1,0 +1,8 @@
+hwi_oauth:
+    firewall_name: secured_area
+    resource_owners:
+        github:
+            type: github
+            client_id: 3277e4e8bd9a795de4a7
+            client_secret: 5ca13fb31359c78e0bc44ac192fc0482cf0ad4b3
+            scope: "admin:repo_hook"

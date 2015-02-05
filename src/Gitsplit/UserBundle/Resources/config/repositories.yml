@@ -1,0 +1,11 @@
+services:
+
+    #
+    # Repositories
+    #
+    gitsplit.repository.user:
+        class: Gitsplit\UserBundle\Repository\UserRepository
+        factory_service: elcodi.repository_provider
+        factory_method: getRepositoryByEntityNamespace
+        arguments:
+            entity_namespace: Gitsplit\UserBundle\Entity\User

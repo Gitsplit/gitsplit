@@ -1,0 +1,64 @@
+Gitsplit\RepositoryBundle\Entity\Repository:
+    type: entity
+    repositoryClass: Gitsplit\RepositoryBundle\Repository\RepositoryRepository
+    table: repository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: NONE
+    fields:
+        url:
+            column: url
+            type: string
+            nullable: false
+        sshUrl:
+            column: ssh_url
+            type: string
+            nullable: false
+        gitUrl:
+            column: git_url
+            type: string
+            nullable: false
+        owner:
+            column: owner
+            type: string
+            nullable: false
+        name:
+            column: name
+            type: string
+            nullable: false
+        webhookId:
+            column: webhook_id
+            type: string
+            nullable: false
+        webhookSecret:
+            column: webhook_secret
+            type: string
+            nullable: false
+        createdAt:
+            column: created_at
+            type: datetime
+        updatedAt:
+            column: updated_at
+            type: datetime
+
+    manyToOne:
+        user:
+            targetEntity: Gitsplit\UserBundle\Entity\User
+            inversedBy: repositories
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                nullable: false
+                onDelete: "CASCADE"
+                onUpdate: "CASCADE"
+
+    oneToMany:
+        suites:
+            targetEntity: Gitsplit\EngineBundle\Entity\Suite
+            mappedBy: repository
+
+    lifecycleCallbacks:
+        preUpdate: [loadUpdateAt]
+        prePersist: [loadUpdateAt]

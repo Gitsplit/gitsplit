@@ -1,0 +1,11 @@
+services:
+
+    #
+    # Object Managers
+    #
+    gitsplit.object_manager.repository:
+        class: Doctrine\Common\Persistence\ObjectManager
+        factory_service: elcodi.manager_provider
+        factory_method: getManagerByEntityNamespace
+        arguments:
+            - Gitsplit\RepositoryBundle\Entity\Repository

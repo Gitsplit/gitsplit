@@ -1,0 +1,11 @@
+services:
+
+    #
+    # Services
+    #
+    gitsplit.repository_manager:
+        class: Gitsplit\RepositoryBundle\Services\RepositoryManager
+        arguments:
+            - @gitsplit.factory.repository
+            - @gitsplit.repository.repository
+            - @gitsplit.object_manager.repository

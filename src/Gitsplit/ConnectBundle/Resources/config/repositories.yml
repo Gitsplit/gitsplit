@@ -1,0 +1,15 @@
+services:
+
+    #
+    # Repositories
+    #
+
+    #
+    # Repository for Authentication entities
+    #
+    gitsplit.repository.authorization:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: elcodi.repository_provider
+        factory_method: getRepositoryByEntityNamespace
+        arguments:
+            - Gitsplit\ConnectBundle\Entity\Authorization

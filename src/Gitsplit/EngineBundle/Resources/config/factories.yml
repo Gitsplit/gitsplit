@@ -1,0 +1,10 @@
+services:
+
+    #
+    # Factories
+    #
+    gitsplit.factory.suite:
+        class: Gitsplit\EngineBundle\Factory\SuiteFactory
+
+    gitsplit.factory.work:
+        class: Gitsplit\EngineBundle\Factory\WorkFactory

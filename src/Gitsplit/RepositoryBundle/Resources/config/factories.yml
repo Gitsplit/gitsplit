@@ -1,0 +1,7 @@
+services:
+
+    #
+    # Factories
+    #
+    gitsplit.factory.repository:
+        class: Gitsplit\RepositoryBundle\Factory\RepositoryFactory

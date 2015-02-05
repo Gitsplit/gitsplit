@@ -1,0 +1,2 @@
+split:
+    src/Bundle/(*): https://github.com/elcodi/{1}

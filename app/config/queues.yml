@@ -1,0 +1,15 @@
+rs_queue:
+
+    # Queues definition
+    queues:
+        splits: "queues:splits"
+
+    # Serializer definition
+    serializer: ~
+
+    # Server configuration. By default, these values
+    server:
+        redis:
+            host: 127.0.0.1
+            port: 6379
+            database: ~

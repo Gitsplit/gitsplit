@@ -1,0 +1,57 @@
+{% extends "::base.html.twig" %}
+
+
+{% block body %}
+
+    {% if repository.suites|length > 0 %}
+
+        <div class="panel-group" id="panel-1">
+            {% for suite in repository.suites|reverse %}
+
+                {% set panelId = suite.id %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                         <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-{{ panelId }}">Suite #{{ panelId }}</a>
+                    </div>
+
+                    <div id="panel-element-{{ panelId }}" class="panel-collapse collapse {% if loop.first %} in{% endif %}">
+                        <div class="tabbable" id="tabs-{{ panelId }}">
+                            <ul class="nav nav-tabs">
+                                {% for work in suite.works %}
+                                    {% set tabId = work.id %}
+                                    <li{% if loop.first %} class="active"{% endif %}>
+                                        <a href="#panel-{{ tabId }}" data-toggle="tab">{{ work.path }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="tab-content">
+                                {% for work in suite.works %}
+                                    {% set tabId = work.id %}
+                                    <div class="tab-pane{% if loop.first %} active{% endif %}" id="panel-{{ tabId }}">
+                                        <p>{{ work.log|replace({"\n":"<br>"})|raw }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <div class="jumbotron">
+            <h1>
+                Not suites available yet
+            </h1>
+            <p>
+                This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+            </p>
+            <p>
+                <a class="btn btn-primary btn-large" href="#">Test the hook</a>
+            </p>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

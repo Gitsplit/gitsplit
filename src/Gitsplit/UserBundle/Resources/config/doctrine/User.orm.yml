@@ -1,0 +1,47 @@
+Gitsplit\UserBundle\Entity\User:
+    type: entity
+    repositoryClass: Gitsplit\UserBundle\Repository\UserRepository
+    table: user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        email:
+            column: email
+            type: string
+        firstName:
+            column: first_name
+            type: string
+        username:
+            column: username
+            type: string
+        repositoriesPlain:
+            column: repositories_plain
+            type: text
+            nullable: true
+        salt:
+            column: salt
+            type: string
+            length: 100
+        createdAt:
+            column: created_at
+            type: datetime
+        updatedAt:
+            column: updated_at
+            type: datetime
+
+    oneToOne:
+        authorization:
+            targetEntity: Gitsplit\ConnectBundle\Entity\Authorization
+            mappedBy: user
+
+    oneToMany:
+        repositories:
+            targetEntity: Gitsplit\RepositoryBundle\Entity\Repository
+            mappedBy: user
+
+    lifecycleCallbacks:
+        preUpdate: [loadUpdateAt]
+        prePersist: [loadUpdateAt]
