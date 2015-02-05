@@ -16,7 +16,6 @@
 namespace Gitsplit\EngineBundle\Controller;
 
 use Gitsplit\RepositoryBundle\Entity\Repository;
-use Gitsplit\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +33,7 @@ class SplitController extends Controller
      * @Route(
      *      path = "/push",
      *      name = "gitsplit_push",
-     *      methods = {"GET"}
+     *      methods = {"POST"}
      * )
      */
     public function splitAction(Request $request)
