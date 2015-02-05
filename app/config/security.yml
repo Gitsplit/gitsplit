@@ -36,7 +36,7 @@ security:
 
     access_control:
         push_area:
-            path: ^/login.*
+            path: ^/push.*
             roles: IS_AUTHENTICATED_ANONYMOUSLY
 
         login_area:
