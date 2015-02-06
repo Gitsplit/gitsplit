@@ -8,5 +8,6 @@
 /app/phpunit.xml
 /build/
 /vendor/
-/bin/
+/bin/*
+!/bin/split.sh
 /composer.phar
