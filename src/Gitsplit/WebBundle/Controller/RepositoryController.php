@@ -15,6 +15,7 @@
 
 namespace Gitsplit\WebBundle\Controller;
 
+use Exception;
 use Gitsplit\RepositoryBundle\Entity\Repository;
 use Mmoreram\ControllerExtraBundle\Annotation\Entity as EntityAnnotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -60,22 +61,28 @@ class RepositoryController extends Controller
     public function addAction($id)
     {
         $user = $this->getUser();
-        $this
-            ->get('gitsplit.repository_manager')
-            ->addRepository(
-                $this->getUser(),
-                $id
-            );
 
-        $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
-        if ($repositoriesPlain[$id]) {
+        try {
+            $this
+                ->get('gitsplit.repository_manager')
+                ->addRepository(
+                    $this->getUser(),
+                    $id
+                );
 
-            $repositoriesPlain[$id]['enabled'] = true;
+            $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
+            if ($repositoriesPlain[$id]) {
+
+                $repositoriesPlain[$id]['enabled'] = true;
+            }
+            $user->setRepositoriesPlain(json_encode($repositoriesPlain));
+            $this
+                ->get('gitsplit.object_manager.user')
+                ->flush($user);
+        } catch (Exception $e) {
+
+            // Silent catch
         }
-        $user->setRepositoriesPlain(json_encode($repositoriesPlain));
-        $this
-            ->get('gitsplit.object_manager.user')
-            ->flush($user);
 
         return $this->redirectToRoute('gitsplit_home');
     }
@@ -91,26 +98,38 @@ class RepositoryController extends Controller
      *      },
      *      methods = {"GET"}
      * )
+     *
+     * @EntityAnnotation(
+     *      class = "Gitsplit\RepositoryBundle\Entity\Repository",
+     *      name = "repository",
+     *      mapping = {
+     *          "id": "~id~"
+     *      }
+     * )
      */
-    public function removeAction($id)
+    public function removeAction(Repository $repository)
     {
         $user = $this->getUser();
-        $this
-            ->get('gitsplit.repository_manager')
-            ->removeRepository(
-                $this->getUser(),
-                $id
-            );
 
-        $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
-        if ($repositoriesPlain[$id]) {
+        try {
+            $repositoryId = $repository->getId();
+            $this
+                ->get('gitsplit.repository_manager')
+                ->removeRepository($repository);
 
-            $repositoriesPlain[$id]['enabled'] = false;
+            $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
+            if ($repositoriesPlain[$repositoryId]) {
+
+                $repositoriesPlain[$repositoryId]['enabled'] = false;
+            }
+            $user->setRepositoriesPlain(json_encode($repositoriesPlain));
+            $this
+                ->get('gitsplit.object_manager.user')
+                ->flush($user);
+        } catch (Exception $e) {
+
+            // Silent catch
         }
-        $user->setRepositoriesPlain(json_encode($repositoriesPlain));
-        $this
-            ->get('gitsplit.object_manager.user')
-            ->flush($user);
 
         return $this->redirectToRoute('gitsplit_home');
     }
@@ -162,4 +181,3 @@ class RepositoryController extends Controller
         );
     }
 }
- 

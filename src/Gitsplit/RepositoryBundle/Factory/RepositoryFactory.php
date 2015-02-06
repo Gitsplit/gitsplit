@@ -33,9 +33,8 @@ class RepositoryFactory
         $repository = new Repository();
         $repository
             ->setId($id)
-            ->setCreatedAt(new DateTime);
+            ->setCreatedAt(new DateTime());
 
         return $repository;
     }
 }
- 

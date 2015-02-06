@@ -19,8 +19,6 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * Class AuthorizationRepository
- *
- * @author Berny Cantos <be@rny.cc>
  */
 class AuthorizationRepository extends EntityRepository
 {

@@ -94,14 +94,14 @@ class Work
      * @param $path
      * @param $remote
      */
-    function __construct($suite, $path, $remote)
+    public function __construct($suite, $path, $remote)
     {
         $this->suite = $suite;
         $this->path = $path;
         $this->remote = $remote;
         $this->status = self::STATUS_EMPTY;
         $this->log = '';
-        $this->createdAt = new DateTime;
+        $this->createdAt = new DateTime();
     }
 
     /**
@@ -220,4 +220,3 @@ class Work
         return $this;
     }
 }
- 

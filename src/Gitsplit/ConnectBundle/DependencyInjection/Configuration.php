@@ -21,8 +21,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Class Configuration
- *
- * @author Berny Cantos <be@rny.cc>
  */
 class Configuration extends AbstractConfiguration implements ConfigurationInterface
 {

@@ -37,7 +37,7 @@ class SplitRule
     /**
      * Construct
      *
-     * @param string $path Path
+     * @param string $path                  Path
      * @param string $destinationRepository Destination Repository
      */
     public function __construct($path, $destinationRepository)
@@ -66,4 +66,3 @@ class SplitRule
         return $this->path;
     }
 }
- 

@@ -29,8 +29,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Class OAuthUserProvider
- *
- * @author Berny Cantos <be@rny.cc>
  */
 class OAuthUserProvider implements OAuthAwareUserProviderInterface
 {
@@ -70,6 +68,8 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     private $userObjectManager;
 
     /**
+     * Construct
+     *
      * @param UserProviderInterface $provider
      * @param ObjectRepository      $authorizationRepository
      * @param ObjectManager         $authorizationManager
@@ -92,9 +92,11 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     }
 
     /**
-     * @param UserResponseInterface $response
+     * Load user by oauth user response
      *
-     * @return UserInterface
+     * @param UserResponseInterface $response Response
+     *
+     * @return UserInterface User
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
@@ -111,9 +113,11 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     }
 
     /**
-     * @param UserResponseInterface $response
+     * Find authorization
      *
-     * @return Authorization
+     * @param UserResponseInterface $response Response
+     *
+     * @return Authorization Authorization
      */
     protected function findAuthorization(UserResponseInterface $response)
     {
@@ -126,10 +130,12 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     }
 
     /**
-     * @param UserResponseInterface $response
-     * @param User                  $user
+     * Create a new authorization
      *
-     * @return Authorization
+     * @param UserResponseInterface $response Response
+     * @param User                  $user     User
+     *
+     * @return Authorization New authorization
      */
     protected function createAuthorization(UserResponseInterface $response, User $user)
     {
@@ -140,17 +146,18 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
             ->setResourceOwnerName($response->getResourceOwner()->getName())
             ->setUsername($response->getUsername())
             ->setClientId($response->getResourceOwner()->getOption('client_id'))
-            ->setClientSecret($response->getResourceOwner()->getOption('client_secret'))
-        ;
+            ->setClientSecret($response->getResourceOwner()->getOption('client_secret'));
 
         return $authorization;
     }
 
     /**
-     * @param Authorization         $authorization
-     * @param UserResponseInterface $response
+     * Update existing Authorization
      *
-     * @return Authorization
+     * @param Authorization         $authorization Authorization
+     * @param UserResponseInterface $response      Response
+     *
+     * @return Authorization Authorization
      */
     protected function updateAuthorization(Authorization $authorization, UserResponseInterface $response)
     {
@@ -163,7 +170,11 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     }
 
     /**
-     * @param Authorization $authorization
+     * Save authorization
+     *
+     * @param Authorization $authorization Authorization
+     *
+     * @return $this Self object
      */
     protected function save(Authorization $authorization)
     {
@@ -171,12 +182,16 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
 
         $this->authorizationManager->persist($authorization);
         $this->authorizationManager->flush($authorization);
+
+        return $this;
     }
 
     /**
-     * @param UserResponseInterface $response
+     * Find or create user
      *
-     * @return UserInterface
+     * @param UserResponseInterface $response Response
+     *
+     * @return UserInterface User
      */
     protected function findOrCreateUser(UserResponseInterface $response)
     {
@@ -189,9 +204,11 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     }
 
     /**
-     * @param UserResponseInterface $response
+     * Find user
      *
-     * @return UserInterface
+     * @param UserResponseInterface $response Response
+     *
+     * @return UserInterface User
      */
     protected function findUser(UserResponseInterface $response)
     {
@@ -207,9 +224,11 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     }
 
     /**
-     * @param UserResponseInterface $response
+     * Create user
      *
-     * @return UserInterface
+     * @param UserResponseInterface $response Response
+     *
+     * @return UserInterface User
      */
     protected function createUser(UserResponseInterface $response)
     {
@@ -231,9 +250,9 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface
     /**
      * Return expiration date given time to expiration
      *
-     * @param integer $secondsToExpiration
+     * @param integer $secondsToExpiration Seconds to expiration
      *
-     * @return \DateTime
+     * @return DateTime
      */
     protected function getExpirationDate($secondsToExpiration)
     {

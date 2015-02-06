@@ -90,7 +90,7 @@ class Suite
      * @param $user
      * @param $repository
      */
-    function __construct($user, $repository)
+    public function __construct($user, $repository)
     {
         $this->user = $user;
         $this->repository = $repository;
@@ -98,7 +98,6 @@ class Suite
         $this->status = self::STATUS_EMPTY;
         $this->createdAt = new DateTime();
     }
-
 
     /**
      * Get Repository
@@ -178,4 +177,3 @@ class Suite
         return $this;
     }
 }
- 

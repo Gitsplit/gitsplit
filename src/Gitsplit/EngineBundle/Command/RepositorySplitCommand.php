@@ -122,4 +122,3 @@ class RepositorySplitCommand extends ConsumerCommand
         exit(0);
     }
 }
- 

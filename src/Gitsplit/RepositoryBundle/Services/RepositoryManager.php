@@ -49,11 +49,13 @@ class RepositoryManager
     protected $repositoryObjectManager;
 
     /**
-     * @param $repositoryFactory
-     * @param $repositoryRepository
-     * @param $repositoryObjectManager
+     * Construct
+     *
+     * @param $repositoryFactory       Repository factory
+     * @param $repositoryRepository    Repository repository
+     * @param $repositoryObjectManager Repository object manager
      */
-    function __construct($repositoryFactory, $repositoryRepository, $repositoryObjectManager)
+    public function __construct($repositoryFactory, $repositoryRepository, $repositoryObjectManager)
     {
         $this->repositoryFactory = $repositoryFactory;
         $this->repositoryRepository = $repositoryRepository;
@@ -78,27 +80,32 @@ class RepositoryManager
     }
 
     /**
-     * Add repository
+     * Add a new repository if does not exist.
+     * If exists, return existing one.
+     *
+     * @param User    $user         User
+     * @param integer $repositoryId Repository id
+     *
+     * @return $this Self object
+     *
+     * @throws Exception The repository is not found
      */
     public function addRepository(User $user, $repositoryId)
     {
-        $repositoryId = (int) $repositoryId;
-        $existantRepository = $this
+        $existentRepository = $this
             ->repositoryRepository
             ->findBy([
                 'user' => $user,
-                'id'  => $repositoryId
+                'id'   => $repositoryId
             ]);
 
-        if ($existantRepository instanceof Repository) {
-
-            return $existantRepository;
+        if ($existentRepository instanceof Repository) {
+            return $existentRepository;
         }
 
         $specificRepository = array_filter(
             $this->loadAllRepositories($user),
             function (array $repository) use ($repositoryId) {
-
                 return ($repository['id'] === $repositoryId);
             });
 
@@ -130,25 +137,20 @@ class RepositoryManager
     /**
      * Remove repository
      */
-    public function removeRepository(User $user, $repositoryId)
+    public function removeRepository(Repository $repository)
     {
-        $repository = $this
-            ->repositoryRepository
-            ->findOneBy([
-                'user' => $user,
-                'id'  => $repositoryId
-            ]);
-
-        if ($repository instanceof Repository) {
-            $this->repositoryObjectManager->remove($repository);
-            $this->repositoryObjectManager->flush($repository);
-        }
+        $this->repositoryObjectManager->remove($repository);
+        $this->repositoryObjectManager->flush($repository);
 
         return $this;
     }
 
     /**
-     * Authenticate user
+     * Return an authenticated client instance given a user
+     *
+     * @param User $user User
+     *
+     * @return \Github\Client Authenticated client
      */
     public function getAuthenticatedClient(User $user)
     {
@@ -165,4 +167,3 @@ class RepositoryManager
         return $client;
     }
 }
- 

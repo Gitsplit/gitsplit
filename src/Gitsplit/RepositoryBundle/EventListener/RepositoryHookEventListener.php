@@ -32,11 +32,10 @@ class RepositoryHookEventListener
      */
     protected $container;
 
-    function __construct($container)
+    public function __construct($container)
     {
         $this->container = $container;
     }
-
 
     /**
      * Pre persist
@@ -107,4 +106,3 @@ class RepositoryHookEventListener
         }
     }
 }
- 

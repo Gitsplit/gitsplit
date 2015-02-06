@@ -20,8 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class MappingCompilerPass
- *
- * @author Berny Cantos <be@rny.cc>
  */
 class MappingCompilerPass extends AbstractMappingCompilerPass
 {

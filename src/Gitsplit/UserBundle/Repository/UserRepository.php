@@ -24,4 +24,3 @@ class UserRepository extends EntityRepository
 {
 
 }
- 

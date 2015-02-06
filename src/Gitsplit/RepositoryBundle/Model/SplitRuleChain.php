@@ -14,7 +14,7 @@
  */
 
 namespace Gitsplit\RepositoryBundle\Model;
- 
+
 /**
  * Class SplitRuleChain
  */
@@ -51,4 +51,3 @@ class SplitRuleChain
         return $this->splitRules;
     }
 }
- 

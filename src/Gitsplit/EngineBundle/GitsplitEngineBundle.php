@@ -50,4 +50,3 @@ class GitsplitEngineBundle extends Bundle
         $container->addCompilerPass(new MappingCompilerPass());
     }
 }
- 

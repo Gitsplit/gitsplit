@@ -16,6 +16,7 @@
 namespace Gitsplit\ConnectBundle\DependencyInjection;
 
 use Elcodi\Bundle\CoreBundle\DependencyInjection\Abstracts\AbstractExtension;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Class GitsplitConnectExtension
@@ -30,7 +31,9 @@ class GitsplitConnectExtension extends AbstractExtension
     const EXTENSION_NAME = 'gitsplit_connect';
 
     /**
-     * @return string
+     * Get the Config file location
+     *
+     * @return string Config file location
      */
     public function getConfigFilesLocation()
     {
@@ -38,7 +41,16 @@ class GitsplitConnectExtension extends AbstractExtension
     }
 
     /**
-     * @return Configuration
+     * Return a new Configuration instance.
+     *
+     * If object returned by this method is an instance of
+     * ConfigurationInterface, extension will use the Configuration to read all
+     * bundle config definitions.
+     *
+     * Also will call getParametrizationValues method to load some config values
+     * to internal parameters.
+     *
+     * @return ConfigurationInterface Configuration file
      */
     protected function getConfigurationInstance()
     {
@@ -46,9 +58,17 @@ class GitsplitConnectExtension extends AbstractExtension
     }
 
     /**
-     * @param array $config
+     * Load Parametrization definition
      *
-     * @return array
+     * return array(
+     *      'parameter1' => $config['parameter1'],
+     *      'parameter2' => $config['parameter2'],
+     *      ...
+     * );
+     *
+     * @param array $config Bundles config values
+     *
+     * @return array Parametrization values
      */
     protected function getParametrizationValues(array $config)
     {
@@ -61,9 +81,25 @@ class GitsplitConnectExtension extends AbstractExtension
     }
 
     /**
-     * @param array $config
+     * Config files to load
      *
-     * @return array
+     * Each array position can be a simple file name if must be loaded always,
+     * or an array, with the filename in the first position, and a boolean in
+     * the second one.
+     *
+     * As a parameter, this method receives all loaded configuration, to allow
+     * setting this boolean value from a configuration value.
+     *
+     * return array(
+     *      'file1.yml',
+     *      'file2.yml',
+     *      ['file3.yml', $config['my_boolean'],
+     *      ...
+     * );
+     *
+     * @param array $config Config definitions
+     *
+     * @return array Config files
      */
     public function getConfigFiles(array $config)
     {

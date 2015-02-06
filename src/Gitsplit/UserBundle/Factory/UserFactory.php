@@ -34,9 +34,8 @@ class UserFactory
         $generator = new SecureRandom();
         $user
             ->setSalt($generator->nextBytes(100))
-            ->setCreatedAt(new DateTime);
+            ->setCreatedAt(new DateTime());
 
         return $user;
     }
 }
- 

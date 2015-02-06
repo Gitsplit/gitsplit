@@ -15,6 +15,7 @@
 
 namespace Gitsplit\ConnectBundle\Entity;
 
+use DateTime;
 use Elcodi\Component\Core\Entity\Traits\IdentifiableTrait;
 use Gitsplit\UserBundle\Entity\User;
 
@@ -26,23 +27,23 @@ class Authorization
     use IdentifiableTrait;
 
     /**
-     * Name of the resource owner
-     *
      * @var string
+     *
+     * Name of the resource owner
      */
     protected $resourceOwnerName;
 
     /**
-     * Username in the remote system
-     *
      * @var string
+     *
+     * Username in the remote system
      */
     protected $username;
 
     /**
-     * Authorization token, when it suits
-     *
      * @var string
+     *
+     * Authorization token, when it suits
      */
     protected $authorizationToken;
 
@@ -61,21 +62,23 @@ class Authorization
     protected $clientSecret;
 
     /**
-     * Expiration date
+     * @var DateTime
      *
-     * @var \DateTime
+     * Expiration date
      */
     protected $expirationDate;
 
     /**
-     * User
-     *
      * @var User
+     *
+     * User
      */
     protected $user;
 
     /**
-     * @return string
+     * Get AuthorizationToken
+     *
+     * @return string AuthorizationToken
      */
     public function getAuthorizationToken()
     {
@@ -83,93 +86,15 @@ class Authorization
     }
 
     /**
-     * @param string $authorizationToken
+     * Sets AuthorizationToken
      *
-     * @return self
+     * @param string $authorizationToken AuthorizationToken
+     *
+     * @return $this Self object
      */
     public function setAuthorizationToken($authorizationToken)
     {
         $this->authorizationToken = $authorizationToken;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getExpirationDate()
-    {
-        return $this->expirationDate;
-    }
-
-    /**
-     * @param \DateTime $expirationDate
-     *
-     * @return self
-     */
-    public function setExpirationDate($expirationDate)
-    {
-        $this->expirationDate = $expirationDate;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResourceOwnerName()
-    {
-        return $this->resourceOwnerName;
-    }
-
-    /**
-     * @param string $resourceOwnerName
-     *
-     * @return self
-     */
-    public function setResourceOwnerName($resourceOwnerName)
-    {
-        $this->resourceOwnerName = $resourceOwnerName;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @param string $username
-     *
-     * @return self
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return self
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
 
         return $this;
     }
@@ -218,6 +143,102 @@ class Authorization
     public function setClientSecret($clientSecret)
     {
         $this->clientSecret = $clientSecret;
+
+        return $this;
+    }
+
+    /**
+     * Get ExpirationDate
+     *
+     * @return \DateTime ExpirationDate
+     */
+    public function getExpirationDate()
+    {
+        return $this->expirationDate;
+    }
+
+    /**
+     * Sets ExpirationDate
+     *
+     * @param \DateTime $expirationDate ExpirationDate
+     *
+     * @return $this Self object
+     */
+    public function setExpirationDate($expirationDate)
+    {
+        $this->expirationDate = $expirationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get ResourceOwnerName
+     *
+     * @return string ResourceOwnerName
+     */
+    public function getResourceOwnerName()
+    {
+        return $this->resourceOwnerName;
+    }
+
+    /**
+     * Sets ResourceOwnerName
+     *
+     * @param string $resourceOwnerName ResourceOwnerName
+     *
+     * @return $this Self object
+     */
+    public function setResourceOwnerName($resourceOwnerName)
+    {
+        $this->resourceOwnerName = $resourceOwnerName;
+
+        return $this;
+    }
+
+    /**
+     * Get User
+     *
+     * @return User User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Sets User
+     *
+     * @param User $user User
+     *
+     * @return $this Self object
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get Username
+     *
+     * @return string Username
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Sets Username
+     *
+     * @param string $username Username
+     *
+     * @return $this Self object
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
 
         return $this;
     }
