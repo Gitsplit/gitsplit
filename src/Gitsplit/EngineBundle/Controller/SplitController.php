@@ -40,7 +40,7 @@ class SplitController extends Controller
     {
         $request = Request::createFromGlobals();
         $content = $request->getContent();
-        $jsonContent = json_decode($content, true);
+        $jsonContent = json_decode($content);
 
         /**
          * None json format
