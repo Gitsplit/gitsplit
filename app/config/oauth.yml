@@ -3,6 +3,6 @@ hwi_oauth:
     resource_owners:
         github:
             type: github
-            client_id: %oauth.github.id%
-            client_secret: %oauth.github.secret%
+            client_id: %oauth_github_id%
+            client_secret: %oauth_github_secret%
             scope: "admin:repo_hook"
