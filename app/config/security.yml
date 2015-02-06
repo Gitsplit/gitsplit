@@ -44,5 +44,5 @@ security:
             roles: IS_AUTHENTICATED_ANONYMOUSLY
 
         user_area:
-            path: ^/.*
+            path: ^.*
             roles: ROLE_USER
