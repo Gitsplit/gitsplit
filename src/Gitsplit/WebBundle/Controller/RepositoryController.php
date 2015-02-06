@@ -67,7 +67,7 @@ class RepositoryController extends Controller
                 ->get('gitsplit.repository_manager')
                 ->addRepository(
                     $this->getUser(),
-                    $id
+                    (int) $id
                 );
 
             $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
@@ -81,7 +81,7 @@ class RepositoryController extends Controller
                 ->flush($user);
         } catch (Exception $e) {
 
-            // Silent catch
+            // Silent pass
         }
 
         return $this->redirectToRoute('gitsplit_home');
@@ -128,7 +128,7 @@ class RepositoryController extends Controller
                 ->flush($user);
         } catch (Exception $e) {
 
-            // Silent catch
+            // Silent pass
         }
 
         return $this->redirectToRoute('gitsplit_home');
