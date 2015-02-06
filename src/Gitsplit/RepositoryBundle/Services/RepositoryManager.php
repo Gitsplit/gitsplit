@@ -20,6 +20,7 @@ use Exception;
 use Gitsplit\RepositoryBundle\Entity\Repository;
 use Gitsplit\RepositoryBundle\Factory\RepositoryFactory;
 use Gitsplit\RepositoryBundle\Repository\RepositoryRepository;
+use Gitsplit\RepositoryBundle\Traits\AuthenticatedClientTrait;
 use Gitsplit\UserBundle\Entity\User;
 
 /**
@@ -27,6 +28,8 @@ use Gitsplit\UserBundle\Entity\User;
  */
 class RepositoryManager
 {
+    use AuthenticatedClientTrait;
+
     /**
      * @var RepositoryFactory
      *
@@ -49,34 +52,31 @@ class RepositoryManager
     protected $repositoryObjectManager;
 
     /**
+     * @var RepositoryApiManager
+     *
+     * Repository API manager
+     */
+    protected $repositoryApiManager;
+
+    /**
      * Construct
      *
-     * @param $repositoryFactory       Repository factory
-     * @param $repositoryRepository    Repository repository
-     * @param $repositoryObjectManager Repository object manager
+     * @param RepositoryFactory    $repositoryFactory       Repository factory
+     * @param RepositoryRepository $repositoryRepository    Repository repository
+     * @param ObjectManager        $repositoryObjectManager Repository object manager
+     * @param RepositoryApiManager $repositoryApiManager    Repository object manager
      */
-    public function __construct($repositoryFactory, $repositoryRepository, $repositoryObjectManager)
+    public function __construct(
+        RepositoryFactory $repositoryFactory,
+        RepositoryRepository $repositoryRepository,
+        ObjectManager $repositoryObjectManager,
+        RepositoryApiManager $repositoryApiManager
+    )
     {
         $this->repositoryFactory = $repositoryFactory;
         $this->repositoryRepository = $repositoryRepository;
         $this->repositoryObjectManager = $repositoryObjectManager;
-    }
-
-    /**
-     * Get all user repositories
-     *
-     * @param User $user User
-     *
-     * @return array Repositories
-     */
-    public function loadAllRepositories(User $user)
-    {
-        $repositories = $this
-            ->getAuthenticatedClient($user)
-            ->api('current_user')
-            ->repositories('all');
-
-        return $repositories;
+        $this->repositoryApiManager = $repositoryApiManager;
     }
 
     /**
@@ -143,27 +143,5 @@ class RepositoryManager
         $this->repositoryObjectManager->flush($repository);
 
         return $this;
-    }
-
-    /**
-     * Return an authenticated client instance given a user
-     *
-     * @param User $user User
-     *
-     * @return \Github\Client Authenticated client
-     */
-    public function getAuthenticatedClient(User $user)
-    {
-        $authorization = $user->getAuthorization();
-        $client = new \Github\Client();
-
-        $client
-            ->authenticate(
-                $authorization->getAuthorizationToken(),
-                null,
-                \Github\Client::AUTH_HTTP_TOKEN
-            );
-
-        return $client;
     }
 }

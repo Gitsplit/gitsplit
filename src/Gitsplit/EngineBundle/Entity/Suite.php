@@ -187,7 +187,6 @@ class Suite
         return (bool) array_reduce(
             $this->getWorks()->toArray(),
             function ($isFinished, Work $work) {
-
                 return $isFinished && (Work::STATUS_FINISHED === $work->getStatus());
             }, true
         );

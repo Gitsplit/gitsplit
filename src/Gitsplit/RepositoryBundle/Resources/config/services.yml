@@ -3,9 +3,15 @@ services:
     #
     # Services
     #
+    gitsplit.repository_api_manager:
+        class: Gitsplit\RepositoryBundle\Services\RepositoryApiManager
+        arguments:
+            - @gitsplit.object_manager.user
+
     gitsplit.repository_manager:
         class: Gitsplit\RepositoryBundle\Services\RepositoryManager
         arguments:
             - @gitsplit.factory.repository
             - @gitsplit.repository.repository
             - @gitsplit.object_manager.repository
+            - @gitsplit.repository_api_manager

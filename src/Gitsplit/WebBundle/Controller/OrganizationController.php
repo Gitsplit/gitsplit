@@ -19,56 +19,33 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Class HomeController
+ * Class OrganizationController
  *
  * @Route(
- *      path = "/"
+ *      path = "/organization"
  * )
  */
-class HomeController extends Controller
+class OrganizationController extends Controller
 {
     /**
-     * Nav
+     * Organization name
      *
      * @Route(
-     *      path = "nav",
-     *      name = "gitsplit_nav",
+     *      path = "/{organizationName}",
+     *      name = "gitsplit_organization_view",
      *      methods = {"GET"}
      * )
      */
-    public function navAction()
+    public function viewOrganization($organizationName)
     {
         $repositories = $this
             ->get('gitsplit.repository_api_manager')
-            ->load($this->getUser());
+            ->load($this->getUser())[$organizationName];
 
         return $this->render(
-            "::nav.html.twig",
+            ":Organization:view.html.twig",
             [
-                'repositories' => $repositories,
-
-            ]
-        );
-    }
-
-    /**
-     * Home
-     *
-     * @Route(
-     *      path = "",
-     *      name = "gitsplit_home",
-     *      methods = {"GET"}
-     * )
-     */
-    public function viewAction()
-    {
-        $repositories = $this
-            ->get('gitsplit.repository_api_manager')
-            ->load($this->getUser());
-
-        return $this->render(
-            ":Home:view.html.twig",
-            [
+                'organization' => $organizationName,
                 'repositories' => $repositories,
 
             ]

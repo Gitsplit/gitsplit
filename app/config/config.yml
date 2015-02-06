@@ -29,7 +29,7 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    strict_variables: true
     form:
         resources: ['bootstrap_3_layout.html.twig']
 
@@ -37,7 +37,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        ["HWIOAuthBundle"]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

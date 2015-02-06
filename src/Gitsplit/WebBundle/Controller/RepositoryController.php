@@ -23,6 +23,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class RepositoryController
+ *
+ * @Route(
+ *      path = "/repositor",
+ * )
  */
 class RepositoryController extends Controller
 {
@@ -30,7 +34,7 @@ class RepositoryController extends Controller
      * Reload repositories
      *
      * @Route(
-     *      path = "/repositories/reload",
+     *      path = "ies/reload",
      *      name = "gitsplit_repositories_reload",
      *      methods = {"GET"}
      * )
@@ -47,10 +51,40 @@ class RepositoryController extends Controller
     }
 
     /**
+     * View repository
+     *
+     * @Route(
+     *      path = "y/{id}",
+     *      name = "gitsplit_repository_view",
+     *      requirements = {
+     *          "id" = "\d+",
+     *      },
+     *      methods = {"GET"}
+     * )
+     *
+     * @EntityAnnotation(
+     *      class = "Gitsplit\RepositoryBundle\Entity\Repository",
+     *      name = "repository",
+     *      mapping = {
+     *          "id": "~id~"
+     *      }
+     * )
+     */
+    public function viewAction(Repository $repository)
+    {
+        return $this->render(
+            ":Repository:view.html.twig",
+            [
+                'repository' => $repository,
+            ]
+        );
+    }
+
+    /**
      * Load repository
      *
      * @Route(
-     *      path = "/repository/add/{id}",
+     *      path = "y/{id}/add",
      *      name = "gitsplit_repository_add",
      *      requirements = {
      *          "id" = "\d+",
@@ -91,7 +125,7 @@ class RepositoryController extends Controller
      * Load repository
      *
      * @Route(
-     *      path = "/repository/remove/{id}",
+     *      path = "y/{id}/remove",
      *      name = "gitsplit_repository_remove",
      *      requirements = {
      *          "id" = "\d+",
@@ -138,7 +172,7 @@ class RepositoryController extends Controller
      * Load repository
      *
      * @Route(
-     *      path = "/repository/ping/{id}",
+     *      path = "y/{id}/ping",
      *      name = "gitsplit_repository_ping",
      *      requirements = {
      *          "id" = "\d+",
@@ -146,38 +180,8 @@ class RepositoryController extends Controller
      *      methods = {"GET"}
      * )
      */
-    public function pingAction($repositoryId)
+    public function pingAction($id)
     {
         die('ping');
-    }
-
-    /**
-     * Load repository
-     *
-     * @Route(
-     *      path = "/repository/{id}",
-     *      name = "gitsplit_repository_view",
-     *      requirements = {
-     *          "id" = "\d+",
-     *      },
-     *      methods = {"GET"}
-     * )
-     *
-     * @EntityAnnotation(
-     *      class = "Gitsplit\RepositoryBundle\Entity\Repository",
-     *      name = "repository",
-     *      mapping = {
-     *          "id": "~id~"
-     *      }
-     * )
-     */
-    public function viewAction(Repository $repository)
-    {
-        return $this->render(
-            "GitsplitWebBundle:Repository:view.html.twig",
-            [
-                'repository' => $repository,
-            ]
-        );
     }
 }

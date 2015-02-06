@@ -1,0 +1,28 @@
+{% extends "::base.html.twig" %}
+
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            {% for repository in repositories %}
+                <div class="list-group-item col-sm-4">
+                    {% set repositoryName = repository.owner ~ '/' ~ repository.name %}
+                    {% if repository.enabled %}
+                        <a href="{{ url("gitsplit_repository_view", {
+                            "id": repository.id
+                        }) }}">{{ repositoryName }}</a>
+                        <a type="button" class="btn btn-warning btn-xs pull-right" href="{{ url("gitsplit_repository_remove", {
+                            "id": repository.id
+                        }) }}">Remove</a>
+                    {% else %}
+                        <span>{{ repositoryName }}</span>
+                        <a type="button" class="btn btn-success btn-xs pull-right" href="{{ url("gitsplit_repository_add", {
+                            "id": repository.id
+                        }) }}">Add</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
