@@ -176,4 +176,20 @@ class Suite
 
         return $this;
     }
+
+    /**
+     * Suite is finished
+     *
+     * @return boolean suite is finished
+     */
+    public function isFinished()
+    {
+        return (bool) array_reduce(
+            $this->getWorks()->toArray(),
+            function ($isFinished, Work $work) {
+
+                return $isFinished && (Work::STATUS_FINISHED === $work->getStatus());
+            }, true
+        );
+    }
 }

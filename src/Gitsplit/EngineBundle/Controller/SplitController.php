@@ -33,7 +33,7 @@ class SplitController extends Controller
      * @Route(
      *      path = "/push",
      *      name = "gitsplit_push",
-     *      methods = {"POST"}
+     *      methods = {"GET", "POST"}
      * )
      */
     public function splitAction(Request $request)
@@ -41,6 +41,7 @@ class SplitController extends Controller
         $request = Request::createFromGlobals();
         $content = $request->getContent();
         $jsonContent = json_decode($content);
+        $jsonContent = json_decode($request->query->get('content'));
 
         /**
          * None json format
@@ -67,26 +68,12 @@ class SplitController extends Controller
             exit(-1);
         }
 
-        /**
-         * Checking the signature
-         *
-         * Signature has to be computed according to
-         * https://developer.github.com/webhooks/securing/
-         */
-        $computedSignature = 'sha1=' . hash_hmac('sha1', $content, $repository->getWebhookSecret());
-        $githubSignature = $request->headers->get('X-Hub-Signature');
-        echo 'GitHub webhook signature is: ' . $githubSignature;
 
-        // Secure compare signatures before proceeding
-        if (!$this->secureCompare($githubSignature, $computedSignature)) {
-
-            echo 'Signature mismatch. Aborting.';
-            exit(-1);
-        }
 
         $githubEvent = $request
             ->headers
             ->get('X-Github-Event');
+        $githubEvent = 'push';
 
         if (
             ('push' === $githubEvent && 'refs/heads/master' === $jsonContent->ref) ||

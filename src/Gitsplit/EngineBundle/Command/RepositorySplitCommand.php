@@ -108,7 +108,7 @@ class RepositorySplitCommand extends ConsumerCommand
             function ($type, $buffer) use ($work, $workObjectManager, $output, $workId) {
                 $work->appendLog($buffer);
                 $workObjectManager->flush($work);
-                $output->writeln($buffer);
+                $output->writeln(strip_tags($buffer));
             }
         );
 

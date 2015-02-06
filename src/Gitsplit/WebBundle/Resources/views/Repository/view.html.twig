@@ -6,12 +6,20 @@
     {% if repository.suites|length > 0 %}
 
         <div class="panel-group" id="panel-1">
-            {% for suite in repository.suites|reverse %}
+            {% for suite in repository.suites|reverse|slice(0, 10) %}
 
                 {% set panelId = suite.id %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                         <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-{{ panelId }}">Suite #{{ panelId }}</a>
+                        <span class="label label-info">{{ suite.createdAt|date("d.m.Y H:i:s") }}</span>
+                        {% if suite.finished %}
+                            <span class="label label-success">Success</span>
+                        {% else %}
+                            <span class="label label-info">Running</span>
+                        {% endif %}
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-{{ panelId }}">
+                            Suite #{{ panelId }}
+                        </a>
                     </div>
 
                     <div id="panel-element-{{ panelId }}" class="panel-collapse collapse {% if loop.first %} in{% endif %}">
@@ -28,7 +36,7 @@
                                 {% for work in suite.works %}
                                     {% set tabId = work.id %}
                                     <div class="tab-pane{% if loop.first %} active{% endif %}" id="panel-{{ tabId }}">
-                                        <p>{{ work.log|replace({"\n":"<br>"})|raw }}</p>
+                                        <div class="command">{{ work.log|raw }}</div>
                                     </div>
                                 {% endfor %}
                             </div>

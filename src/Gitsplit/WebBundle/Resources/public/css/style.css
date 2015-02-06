@@ -1,0 +1,18 @@
+.command {
+
+    padding: 10px;
+    color: #777;
+}
+
+div.command div.command-box{
+
+    margin: 5px;
+    padding: 10px;
+    background: #eeeeee;
+    display:block;
+}
+
+div.command div.command-box span.command-line{
+
+    display:block;
+}
