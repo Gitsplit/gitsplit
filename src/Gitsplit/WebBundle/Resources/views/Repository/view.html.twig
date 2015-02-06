@@ -5,7 +5,7 @@
 
     {% if repository.suites|length > 0 %}
 
-        <div class="panel-group" id="panel-1">
+        <div class="panel-group" id="panel-0">
             {% for suite in repository.suites|reverse|slice(0, 10) %}
 
                 {% set panelId = suite.id %}
@@ -17,7 +17,7 @@
                         {% else %}
                             <span class="label label-info">Running</span>
                         {% endif %}
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-{{ panelId }}">
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-0" href="#panel-element-{{ panelId }}">
                             Suite #{{ panelId }}
                         </a>
                     </div>
