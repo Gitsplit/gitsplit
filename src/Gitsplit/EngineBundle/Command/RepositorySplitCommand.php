@@ -68,6 +68,7 @@ class RepositorySplitCommand extends ConsumerCommand
         $path = $payload['path'];
         $remote = $payload['remote'];
         $workId = $payload['work_id'];
+        $token = $payload['token'];
         $output->writeln("[Work][$workId] Started");
 
         $workObjectManager = $this
@@ -101,7 +102,8 @@ class RepositorySplitCommand extends ConsumerCommand
             $randomFolder,
             $repository,
             $path,
-            $remote
+            $remote,
+            $token,
         ]))->getProcess();
         $process->setTimeout(300);
         $result = $process->run(

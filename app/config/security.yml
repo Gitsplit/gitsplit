@@ -19,8 +19,8 @@ security:
                 login_path: login
                 check_path: login_check
             logout:
-                path:   logout
-                target: homepage
+                path:   /logout
+                target: gitsplit_home
                 invalidate_session: false
             oauth:
                 login_path: /login

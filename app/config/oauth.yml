@@ -5,4 +5,4 @@ hwi_oauth:
             type: github
             client_id: %oauth_github_id%
             client_secret: %oauth_github_secret%
-            scope: "admin:repo_hook,read:org,user"
+            scope: "admin:repo_hook,read:org,user,repo"

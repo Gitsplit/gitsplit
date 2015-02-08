@@ -20,6 +20,8 @@ use Gitsplit\RepositoryBundle\Entity\Repository;
 use Mmoreram\ControllerExtraBundle\Annotation\Entity as EntityAnnotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class RepositoryController
@@ -83,6 +85,11 @@ class RepositoryController extends Controller
     /**
      * Load repository
      *
+     * @param Request $request Request
+     * @param string  $id      Repository id
+     *
+     * @return RedirectResponse Back to referrer
+     *
      * @Route(
      *      path = "y/{id}/add",
      *      name = "gitsplit_repository_add",
@@ -92,7 +99,7 @@ class RepositoryController extends Controller
      *      methods = {"GET"}
      * )
      */
-    public function addAction($id)
+    public function addAction(Request $request, $id)
     {
         $user = $this->getUser();
 
@@ -105,10 +112,16 @@ class RepositoryController extends Controller
                 );
 
             $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
-            if ($repositoriesPlain[$id]) {
 
-                $repositoriesPlain[$id]['enabled'] = true;
+            foreach ($repositoriesPlain as $organizationName => $organizationPlain) {
+
+                if (isset($organizationPlain[$id])) {
+
+                    $repositoriesPlain[$organizationName][$id]['enabled'] = true;
+                    break;
+                }
             }
+
             $user->setRepositoriesPlain(json_encode($repositoriesPlain));
             $this
                 ->get('gitsplit.object_manager.user')
@@ -118,11 +131,20 @@ class RepositoryController extends Controller
             // Silent pass
         }
 
-        return $this->redirectToRoute('gitsplit_home');
+        $referer = $request
+            ->headers
+            ->get('referer');
+
+        return new RedirectResponse($referer);
     }
 
     /**
      * Load repository
+     *
+     * @param Request    $request    Request
+     * @param Repository $repository Repository
+     *
+     * @return RedirectResponse Back to referrer
      *
      * @Route(
      *      path = "y/{id}/remove",
@@ -141,7 +163,10 @@ class RepositoryController extends Controller
      *      }
      * )
      */
-    public function removeAction(Repository $repository)
+    public function removeAction(
+        Request $request,
+        Repository $repository
+    )
     {
         $user = $this->getUser();
 
@@ -152,20 +177,28 @@ class RepositoryController extends Controller
                 ->removeRepository($repository);
 
             $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);
-            if ($repositoriesPlain[$repositoryId]) {
+            foreach ($repositoriesPlain as $organizationName => $organizationPlain) {
 
-                $repositoriesPlain[$repositoryId]['enabled'] = false;
+                if (isset($organizationPlain[$repositoryId])) {
+                    $repositoriesPlain[$organizationName][$repositoryId]['enabled'] = false;
+                    break;
+                }
             }
             $user->setRepositoriesPlain(json_encode($repositoriesPlain));
             $this
                 ->get('gitsplit.object_manager.user')
                 ->flush($user);
+
         } catch (Exception $e) {
 
             // Silent pass
         }
 
-        return $this->redirectToRoute('gitsplit_home');
+        $referer = $request
+            ->headers
+            ->get('referer');
+
+        return new RedirectResponse($referer);
     }
 
     /**

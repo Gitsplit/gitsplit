@@ -103,7 +103,7 @@ class RepositoryApiManager
      *
      * @return array Repositories grouped by organization name
      */
-    protected function loadAllRepositoriesFromGithubApi(User $user)
+    public function loadAllRepositoriesFromGithubApi(User $user)
     {
         $client = $this->getAuthenticatedClient($user);
         $organizations = $client

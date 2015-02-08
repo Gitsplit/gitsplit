@@ -9,6 +9,7 @@ echo "<div class='command-box'>"
 echo "<span class='label label-default'>Build environment</span>"
 echo "<span class='label label-info'>$(date)</span>"
 
+echo "<span class='command-line'>Using token: $5</span>"
 echo "<span class='command-line'>pushd /tmp</span>"
 echo "<span class='command-line'>"
 pushd /tmp
@@ -49,10 +50,8 @@ fi
 echo "</div>"
 
 
-
 # Split of all existing Bundles
 for i in $(find $3 -maxdepth 0 -type d); do
-
 
     echo "<div class='command-box'>"
     echo "<span class='label label-default'>Split [$i]</span>"

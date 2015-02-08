@@ -94,7 +94,7 @@ class RepositoryManager
     {
         $existentRepository = $this
             ->repositoryRepository
-            ->findBy([
+            ->findOneBy([
                 'user' => $user,
                 'id'   => $repositoryId
             ]);
@@ -103,11 +103,25 @@ class RepositoryManager
             return $existentRepository;
         }
 
-        $specificRepository = array_filter(
-            $this->loadAllRepositories($user),
-            function (array $repository) use ($repositoryId) {
-                return ($repository['id'] === $repositoryId);
-            });
+        $specificRepository = null;
+        $allOrganizations = $this
+            ->repositoryApiManager
+            ->loadAllRepositoriesFromGithubApi($user);
+
+        foreach ($allOrganizations as $organization) {
+
+            if (is_array($organization)) {
+
+                foreach ($organization as $repository) {
+
+                    if ($repository['id'] === $repositoryId) {
+
+                        $specificRepository = $repository;
+                        break 2;
+                    }
+                }
+            }
+        }
 
         /**
          * Repository not found
@@ -117,7 +131,6 @@ class RepositoryManager
             throw new Exception('Repository not found');
         }
 
-        $specificRepository = reset($specificRepository);
         $repository = $this
             ->repositoryFactory
             ->create($specificRepository['id'])

@@ -184,14 +184,34 @@ class SplitController extends Controller
 
             $workObjectManager->persist($work);
             $workObjectManager->flush($work);
+            $token = $repository
+                ->getUser()
+                ->getAuthorization()
+                ->getAuthorizationToken();
+
+            $repositoryWithToken = str_replace(
+                'https://github.com',
+                'https://' . $token . '@github.com',
+                $repository->getUrl()
+            );
+
+            $remoteWithToken = str_replace(
+                [
+                    'https://github.com/',
+                    'git@github.com:'
+                ],
+                'https://' . $token . '@github.com/',
+                $remote
+            );
 
             $this
                 ->container
                 ->get("rs_queue.producer")
                 ->produce("splits", [
-                    'repository' => $repository->getSshUrl(),
+                    'repository' => $repositoryWithToken,
                     'path'       => $path,
-                    'remote'     => $remote,
+                    'remote'     => $remoteWithToken,
+                    'token'      => $token,
                     'work_id'    => $work->getId(),
                 ]);
         }
