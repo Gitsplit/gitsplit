@@ -51,7 +51,7 @@ echo "</div>"
 
 
 # Split of all existing Bundles
-for i in $(find $3 -maxdepth 0 -type d); do
+for i in $(find $3 -maxdepth 0 -type d -printf "%f\n"); do
 
     echo "<div class='command-box'>"
     echo "<span class='label label-default'>Split [$i]</span>"
