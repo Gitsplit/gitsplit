@@ -29,7 +29,7 @@
                     {% block nav %}
                          {{ render(url("gitsplit_nav")) }}
                     {% endblock nav %}
-                    <div class="clearfix" style="margin-top: 100px">
+                    <div class="clearfix" style="margin-top: 60px">
                         {% block body %}
                         {% endblock body %}
                     </div>
@@ -40,6 +40,12 @@
             <script src="{{ asset('bundles/gitsplitweb/js/jquery.min.js') }}"></script>
             <script src="{{ asset('bundles/gitsplitweb/js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('bundles/gitsplitweb/js/scripts.js') }}"></script>
+
+            <script>
+                $('.navbar-lower').affix({
+                    offset: {top: 50}
+                });
+            </script>
 
             <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
             <!--[if lt IE 9]>

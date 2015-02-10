@@ -5,46 +5,22 @@
 
     {% if repository.suites|length > 0 %}
 
-        <div class="panel-group" id="panel-0">
-            {% for suite in repository.suites|reverse|slice(0, 10) %}
-
-                {% set panelId = suite.id %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <span class="label label-info">{{ suite.createdAt|date("d.m.Y H:i:s") }}</span>
-                        {% if suite.finished %}
-                            <span class="label label-success">Success</span>
-                        {% else %}
-                            <span class="label label-info">Running</span>
-                        {% endif %}
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-0" href="#panel-element-{{ panelId }}">
-                            Suite #{{ panelId }}
-                        </a>
-                    </div>
-
-                    <div id="panel-element-{{ panelId }}" class="panel-collapse collapse {% if loop.first %} in{% endif %}">
-                        <div class="tabbable" id="tabs-{{ panelId }}">
-                            <ul class="nav nav-tabs">
-                                {% for work in suite.works %}
-                                    {% set tabId = work.id %}
-                                    <li{% if loop.first %} class="active"{% endif %}>
-                                        <a href="#panel-{{ tabId }}" data-toggle="tab">{{ work.path }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                            <div class="tab-content">
-                                {% for work in suite.works %}
-                                    {% set tabId = work.id %}
-                                    <div class="tab-pane{% if loop.first %} active{% endif %}" id="panel-{{ tabId }}">
-                                        <div class="command">{{ work.log|raw }}</div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
+        <nav class="navbar navbar-default navbar-lower" role="navigation">
+            <div class="container">
+                <div class="collapse navbar-collapse collapse-buttons">
+                    <form class="navbar-form navbar-left" role="search">
+                        {% for suite in repository.suites|reverse|slice(0, 10) %}
+                            <a class="btn btn-default" href="{{ url("gitsplit_repository_view_suite", {
+                                    "id": repository.id,
+                                    "suiteId": suite.id
+                                }) }}">
+                                Suite #{{ suite.id }}
+                            </a>
+                        {% endfor %}
+                    </form>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        </nav>
 
     {% else %}
 

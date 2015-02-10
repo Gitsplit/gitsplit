@@ -15,7 +15,10 @@
 
 namespace Gitsplit\WebBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Exception;
+use Gitsplit\EngineBundle\Entity\Suite;
+use Gitsplit\EngineBundle\Entity\Work;
 use Gitsplit\RepositoryBundle\Entity\Repository;
 use Mmoreram\ControllerExtraBundle\Annotation\Entity as EntityAnnotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -83,6 +86,103 @@ class RepositoryController extends Controller
     }
 
     /**
+     * View repository
+     *
+     * @Route(
+     *      path = "y/{id}/build/{suiteId}",
+     *      name = "gitsplit_repository_view_suite",
+     *      requirements = {
+     *          "id" = "\d+",
+     *          "suiteId" = "\d+",
+     *      },
+     *      methods = {"GET"}
+     * )
+     *
+     * @EntityAnnotation(
+     *      class = "Gitsplit\RepositoryBundle\Entity\Repository",
+     *      name = "repository",
+     *      mapping = {
+     *          "id": "~id~"
+     *      }
+     * )
+     */
+    public function viewSuiteAction(
+        Repository $repository,
+        $suiteId
+    )
+    {
+        $suite = $this
+            ->get('gitsplit.repository.suite')
+            ->findOneBy([
+                'id'         => $suiteId,
+                'repository' => $repository,
+            ]);
+
+        if (!($suite instanceof Suite)) {
+
+            throw new EntityNotFoundException('Suite not found');
+        }
+
+        return $this->render(
+            ":Repository:viewSuite.html.twig",
+            [
+                'repository' => $repository,
+                'suite'      => $suite
+            ]
+        );
+    }
+
+    /**
+     * View repository
+     *
+     * @Route(
+     *      path = "y/{id}/build/{suiteId}/work/{workId}",
+     *      name = "gitsplit_repository_view_work",
+     *      requirements = {
+     *          "id" = "\d+",
+     *          "suiteId" = "\d+",
+     *          "workId" = "\d+",
+     *      },
+     *      methods = {"GET"}
+     * )
+     *
+     * @EntityAnnotation(
+     *      class = "Gitsplit\RepositoryBundle\Entity\Repository",
+     *      name = "repository",
+     *      mapping = {
+     *          "id": "~id~"
+     *      }
+     * )
+     */
+    public function viewWorkAction(
+        Repository $repository,
+        $suiteId,
+        $workId
+    )
+    {
+        $work = $this
+            ->get('gitsplit.repository.work')
+            ->findOneBy([
+                'id'         => $workId,
+                'suite'      => $suiteId,
+            ]);
+
+        if (!($work instanceof Work)) {
+
+            throw new EntityNotFoundException('Work not found');
+        }
+
+        return $this->render(
+            ":Repository:viewWork.html.twig",
+            [
+                'repository' => $repository,
+                'suite'      => $work->getSuite(),
+                'work'       => $work,
+            ]
+        );
+    }
+
+    /**
      * Load repository
      *
      * @param Request $request Request
@@ -108,7 +208,7 @@ class RepositoryController extends Controller
                 ->get('gitsplit.repository_manager')
                 ->addRepository(
                     $this->getUser(),
-                    (int) $id
+                    (int)$id
                 );
 
             $repositoriesPlain = json_decode($user->getRepositoriesPlain(), true);

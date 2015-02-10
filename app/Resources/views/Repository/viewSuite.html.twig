@@ -1,0 +1,32 @@
+{% extends "::base.html.twig" %}
+
+
+{% block body %}
+
+    <nav class="navbar navbar-default navbar-lower" role="navigation">
+        <div class="container">
+            <div class="collapse navbar-collapse collapse-buttons">
+                <form class="navbar-form navbar-left" role="search">
+                    <a style="background: #428bca; color: white" class="btn btn-default active" href="{{ url("gitsplit_repository_view_suite", {
+                            "id": repository.id,
+                            "suiteId": suite.id
+                        }) }}">
+                        Suite #{{ suite.id }}
+                    </a>
+                    {% for work in suite.works %}
+                        {% set finished = suite.finished %}
+                        {% set background = finished ? '#2ecc71' : '#e67e22' %}
+                        <a style="color:white; background:{{ background }}" class="btn btn-default" href="{{ url("gitsplit_repository_view_work", {
+                                "id": repository.id,
+                                "suiteId": suite.id,
+                                "workId": work.id
+                            }) }}">
+                            Work #{{ work.path }}
+                        </a>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}
