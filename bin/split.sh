@@ -51,13 +51,14 @@ echo "</div>"
 
 
 # Split of all existing Bundles
-for i in $(find $3 -maxdepth 0 -type d -printf "%f\n"); do
+for i in $(find $3 -maxdepth 0 -type d); do
 
     echo "<div class='command-box'>"
     echo "<span class='label label-default'>Split [$i]</span>"
     echo "<span class='label label-info'>$(date)</span>"
     TMP_REMOTE=$4
-    REMOTE=${TMP_REMOTE/\$i/$i}
+    REAL_REMOTE_REPO=`basename $i`
+    REMOTE=${TMP_REMOTE/\$i/$REAL_REMOTE_REPO}
 
     # Split the main repo according to the subpackage and
     # put the resulting commits in separate branch
