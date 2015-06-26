@@ -10,12 +10,20 @@
     </div>
     <div class="col-md-4 column">
         {% image '@GitsplitWebBundle/Resources/public/img/gitsplit.png' %}
-        <img src="{{ asset_url }}" alt="Example" />
+        <img src="{{ asset_url }}" alt="Example" style="width:100%" />
         {% endimage %}
 
-        <a href="/login/github" class="btn btn-social-icon btn-lg btn-twitter">
-            <i class="fa fa-twitter"></i>
+        <a href="/login/github" class="btn btn-block btn-social btn-github">
+            <i class="fa fa-github"></i>Sign in with Github
         </a>
+
+        <div style="margin-top: 50px; color: #999999">
+            <p>
+                Split your repository in several read-only repositories. To make
+                it happen you should use a built-in yml file, as follows.
+            </p>
+            <script src="https://gist.github.com/mmoreram/39d8bffea69f0fede474.js"></script>
+        </div>
     </div>
     <div class="col-md-4 column">
     </div>
