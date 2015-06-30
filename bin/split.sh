@@ -86,9 +86,9 @@ for i in $(find $3 -maxdepth 0 -type d); do
     echo "</span>"
 
     # Push the filtered commits to remote master
-    echo "<span class='command-line'>git push origin branch-$i:master</span>"
+    echo "<span class='command-line'>git push --force origin branch-$i:master</span>"
     echo "<span class='command-line'>"
-    git push origin branch-$i:master
+    git push --force origin branch-$i:master
     echo "</span>"
 
     # If a tag exists, we need to create a new one named $TAG
@@ -107,9 +107,9 @@ for i in $(find $3 -maxdepth 0 -type d); do
         COMMIT=$(git rev-list HEAD -1)
         echo "</span>"
 
-        echo "<span class='command-line'>git push origin $TAG</span>"
+        echo "<span class='command-line'>git push --force origin $TAG</span>"
         echo "<span class='command-line'>"
-        git push origin $TAG
+        git push --force origin $TAG
         echo "</span>"
 
         # Tag must be deleted every time since we do not
