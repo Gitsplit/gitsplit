@@ -11,6 +11,8 @@ Gitsplit\UserBundle\Entity\User:
         email:
             column: email
             type: string
+            unique: true
+            nullable: true
         firstName:
             column: first_name
             type: string
