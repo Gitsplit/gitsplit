@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script is used to split the master version of elcodi/elcodi
+# This script is used to split the branch version of a repository
 # into several independent repositories. It now uses git filter-branch
 # to execute the split. The same result, with a little more security,
 # can be achieved by using "subtree split" in git v1.8
@@ -85,10 +85,10 @@ for i in $(find $3 -maxdepth 0 -type d); do
     git checkout branch-$i
     echo "</span>"
 
-    # Push the filtered commits to remote master
-    echo "<span class='command-line'>git push --force origin branch-$i:master</span>"
+    # Push the filtered commits to remote branch
+    echo "<span class='command-line'>git push --force origin branch-$i:$5</span>"
     echo "<span class='command-line'>"
-    git push --force origin branch-$i:master
+    git push --force origin branch-$i:$5
     echo "</span>"
 
     # If a tag exists, we need to create a new one named $TAG
@@ -121,10 +121,10 @@ for i in $(find $3 -maxdepth 0 -type d); do
         echo "</span>"
     fi
 
-    # Go back to HEAD in master of the main repo
-    echo "<span class='command-line'>git checkout master</span>"
+    # Go back to HEAD in branch of the main repo
+    echo "<span class='command-line'>git checkout $5</span>"
     echo "<span class='command-line'>"
-    git checkout master
+    git checkout $5
     echo "</span>"
     echo "</div>"
 done

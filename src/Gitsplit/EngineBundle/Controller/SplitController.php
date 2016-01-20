@@ -88,12 +88,17 @@ class SplitController extends Controller
             ->headers
             ->get('X-Github-Event');
 
-        if (
-            ('push' === $githubEvent && 'refs/heads/master' === $jsonContent->ref) ||
-            ("create" == $githubEvent && "tag" == $jsonContent->ref_type)
-        ) {
 
-            $splitDefinition = $this->getRepositorySplitDefinition($repository);
+        $splitDefinition = $this->getRepositorySplitDefinition($repository);
+        $shortBranch = str_replace('refs/heads/', '', $jsonContent->ref);
+        if (
+            (in_array($shortBranch, $splitDefinition['branch'])) &&
+            (
+                ('push' === $githubEvent) ||
+                ("create" == $githubEvent && "tag" == $jsonContent->ref_type)
+            )
+        ) {
+            $splitDefinition['short_branch'] = $shortBranch;
             $this->enqueueSplit(
                 $repository,
                 $splitDefinition
@@ -118,6 +123,13 @@ class SplitController extends Controller
 
         $yaml = new Parser();
         $data = $yaml->parse(file_get_contents($url));
+
+        /**
+         * If there's no branch definition, only master will be used (default)
+         */
+        if (!isset($data['branch'])) {
+            $data['branch'] = ['master'];
+        }
 
         return $data;
     }
@@ -208,11 +220,12 @@ class SplitController extends Controller
                 ->container
                 ->get("rs_queue.producer")
                 ->produce("splits", [
-                    'repository' => $repositoryWithToken,
-                    'path'       => $path,
-                    'remote'     => $remoteWithToken,
-                    'token'      => $token,
-                    'work_id'    => $work->getId(),
+                    'repository'   => $repositoryWithToken,
+                    'path'         => $path,
+                    'remote'       => $remoteWithToken,
+                    'token'        => $token,
+                    'work_id'      => $work->getId(),
+                    'short_branch' => $splitDefinition['short_branch'],
                 ]);
         }
     }

@@ -69,6 +69,7 @@ class RepositorySplitCommand extends ConsumerCommand
         $remote = $payload['remote'];
         $workId = $payload['work_id'];
         $token = $payload['token'];
+        $branch = $payload['short_branch'];
         $output->writeln("[Work][$workId] Started");
 
         $workObjectManager = $this
@@ -104,6 +105,7 @@ class RepositorySplitCommand extends ConsumerCommand
             $path,
             $remote,
             $token,
+            $branch,
         ]))->getProcess();
         $process->setTimeout(300);
         $result = $process->run(
